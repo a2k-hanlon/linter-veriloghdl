@@ -1,0 +1,39 @@
+{
+  "name": "linter-verilog",
+  "main": "./lib/init",
+  "version": "0.0.1",
+  "description": "Atom linter for Verilog, using icarus verilog.",
+  "keywords": [
+    "verilog",
+    "iverilog",
+    "icarus",
+    "linter",
+    "compiler"
+  ],
+  "repository": "https://github.com/manucorporat/linter-verilog",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "dependencies": {
+    "atom-linter": "^4.5.0",
+    "atom-package-deps": "^4.0.1"
+  },
+  "devDependencies": {
+    "coffeelint": "^1.14.2",
+    "eslint": "^2.2.0",
+    "babel-eslint": "^5.0.0",
+    "eslint-config-airbnb": "^6.0.2",
+    "eslint-plugin-react": "^4.1.0"
+  },
+  "package-deps": [
+    "linter"
+  ],
+  "providedServices": {
+    "linter": {
+      "versions": {
+        "1.0.0": "provideLinter"
+      }
+    }
+  }
+}
