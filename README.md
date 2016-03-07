@@ -1,8 +1,8 @@
 # linter-verilog
 
-Atom linter for Verilog, using [Icarus Verilog](http://iverilog.icarus.com).
-![Icarus](https://upload.wikimedia.org/wikipedia/en/c/cb/Icarus_Verilog_logo2.png)
+Atom linter for Verilog, using [Icarus Verilog](http://iverilog.icarus.com).  
 
+![Screenshot](https://raw.githubusercontent.com/manucorporat/linter-verilog/master/screenshot.png)
 
 ##Installation
 
