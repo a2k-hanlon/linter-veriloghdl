@@ -1,11 +1,8 @@
 { CompositeDisposable } = require 'atom'
 
-
 lint = (editor) ->
-  console.log("HEYYYYYYY!!!")
   helpers = require('atom-linter')
   regex = /([^:]+):([^:]+):(.+)/
-
   file = editor.getPath()
 
   helpers.exec('iverilog', ['-t', 'null', file], {stream: 'both'}).then (output) ->
@@ -14,7 +11,7 @@ lint = (editor) ->
     for line in lines
       parts = line.match(regex)
       if !parts || parts.length != 4
-        console.log(line)
+        console.error(line)
       else
         message =
           filePath: parts[1].trim()
@@ -34,6 +31,6 @@ module.exports =
     provider =
       grammarScopes: ['source.verilog']
       scope: 'project'
-      lintOnFly: true
+      lintOnFly: false
       name: 'Verilog'
-      lint: (editor) => lint editor
+      lint: (editor) => lint(editor)
