@@ -11,12 +11,11 @@ Atom linter for Verilog, using [Icarus Verilog](http://iverilog.icarus.com).
 On OSX you can just use **brew**:  
 
  ```
-$ brew install icarus-verilog 
+$ brew install icarus-verilog
 ```
 
 2. Install atom package:  
- 
- ```
-$ apm install linter-pylint
-```
 
+ ```
+$ apm install linter-verilog
+```

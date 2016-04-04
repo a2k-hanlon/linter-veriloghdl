@@ -4,14 +4,18 @@ lint = (editor) ->
   helpers = require('atom-linter')
   regex = /([^:]+):([^:]+):(.+)/
   file = editor.getPath()
+  path = file.substring(0, file.lastIndexOf("/"))
 
-  helpers.exec('iverilog', ['-t', 'null', file], {stream: 'both'}).then (output) ->
+  helpers.exec('iverilog', ['-t', 'null', '-I', path,  file], {stream: 'both'}).then (output) ->
     lines = output.stderr.split("\n")
-    warnings = []
+    messages = []
     for line in lines
+      if line.length == 0
+        continue;
+
       parts = line.match(regex)
       if !parts || parts.length != 4
-        console.error(line)
+        console.debug("Droping line:", line)
       else
         message =
           filePath: parts[1].trim()
@@ -19,9 +23,9 @@ lint = (editor) ->
           type: 'Error'
           text: parts[3].trim()
 
-        warnings.push(message)
+        messages.push(message)
 
-    return warnings
+    return messages
 
 module.exports =
   activate: ->
