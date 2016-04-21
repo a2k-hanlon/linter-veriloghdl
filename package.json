@@ -1,7 +1,7 @@
 {
   "name": "linter-verilog",
   "main": "./lib/init",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Atom linter for Verilog, using icarus verilog.",
   "keywords": [
     "verilog",
