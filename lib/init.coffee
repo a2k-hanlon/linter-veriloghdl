@@ -1,12 +1,13 @@
 { CompositeDisposable } = require 'atom'
+path = require 'path'
 
 lint = (editor) ->
   helpers = require('atom-linter')
   regex = /([^:]+):([^:]+):(.+)/
   file = editor.getPath()
-  path = file.substring(0, file.lastIndexOf("/"))
+  dirname = path.dirname(file)
 
-  helpers.exec('iverilog', ['-t', 'null', '-I', path,  file], {stream: 'both'}).then (output) ->
+  helpers.exec('iverilog', ['-t', 'null', '-I', dirname,  file], {stream: 'both'}).then (output) ->
     lines = output.stderr.split("\n")
     messages = []
     for line in lines
