@@ -3,7 +3,7 @@ path = require 'path'
 
 lint = (editor) ->
   helpers = require('atom-linter')
-  regex = /([^:]+):([^:]+):(.+)/
+  regex = /((?:[A-Z]:)?[^:]+):([^:]+):(.+)/
   file = editor.getPath()
   dirname = path.dirname(file)
 
