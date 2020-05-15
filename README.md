@@ -19,3 +19,5 @@ $ brew install icarus-verilog
  ```
 $ apm install linter-verilog
 ```
+
+I installed Icarus Verilog from https://bleyer.org/icarus/
