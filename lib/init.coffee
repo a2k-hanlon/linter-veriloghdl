@@ -29,14 +29,15 @@ lint = (editor) ->
       console.log(line)
       parts = line.match(regex)
       if !parts || parts.length != 4
-        console.debug("Droping line:", line)
+        console.debug("Dropping line:", line)
       else
         message =
-          filePath: parts[1].trim()
-          range: helpers.rangeFromLineNumber(editor, parseInt(parts[2])-1, 0)
-          type: 'Error'
-          text: parts[3].trim()
-
+          location: {
+            file: parts[1].trim()
+            position: helpers.rangeFromLineNumber(editor, parseInt(parts[2])-1, 0)
+          }
+          severity: 'error'
+          excerpt: parts[3].trim()
         messages.push(message)
 
     return messages
@@ -54,6 +55,6 @@ module.exports =
     provider =
       grammarScopes: ['source.verilog']
       scope: 'project'
-      lintOnFly: false
+      lintsOnChange: false
       name: 'Verilog'
       lint: (editor) => lint(editor)
