@@ -7,7 +7,7 @@ Atom linter for Verilog, using [Icarus Verilog](http://iverilog.icarus.com).
 
 #Installation
 
-1. [Install icarus verilog](http://www.swarthmore.edu/NatSci/mzucker1/e15_f2014/iverilog.html).  
+1. [Install icarus verilog](https://bleyer.org/icarus/). 
 On OSX you can just use **brew**:  
 
  ```
@@ -19,5 +19,3 @@ $ brew install icarus-verilog
  ```
 $ apm install linter-verilog
 ```
-
-I installed Icarus Verilog from https://bleyer.org/icarus/
