@@ -12,8 +12,8 @@ lint = (editor) ->
   # vfiles = []
   lock = true
   afiles = ("#{file}" for file in fs.readdirSync(dirname))
-  vfiles = ("#{path.join(dirname,afile) if afile.match(/.*\.v$/)}" for afile in afiles).filter (x) -> x != 'undefined'
-  # console.log(vfiles)
+  vfiles = ("#{path.join(dirname,afile) if afile.match(/.*\.s?v$/)}" for afile in afiles).filter (x) -> x != 'undefined'
+  console.debug(vfiles)
 
   args = ("#{arg}" for arg in atom.config.get('linter-verilog.extraOptions'))
   args = args.concat ['-t', 'null', '-I', dirname]
