@@ -1,4 +1,5 @@
 { CompositeDisposable } = require 'atom'
+fs = require 'fs'
 path = require 'path'
 
 lint = (editor) ->
@@ -6,9 +7,18 @@ lint = (editor) ->
   regex = /((?:[A-Z]:)?[^:]+):([^:]+):(?: *(error|warning):)? *(.+)/
   file = editor.getPath()
   dirname = path.dirname(file)
+  # fileParient = path.join(dirname,'..')
+  console.log(dirname)
+  # vfiles = []
+  lock = true
+  afiles = ("#{file}" for file in fs.readdirSync(dirname))
+  vfiles = ("#{path.join(dirname,afile) if afile.match(/.*\.v$/)}" for afile in afiles).filter (x) -> x != 'undefined'
+  # console.log(vfiles)
 
   args = ("#{arg}" for arg in atom.config.get('linter-verilog.extraOptions'))
-  args = args.concat ['-t', 'null', '-I', dirname,  file]
+  args = args.concat ['-t', 'null', '-I', dirname]
+  args = args.concat vfiles
+  console.log(args)
   helpers.exec('iverilog', args, {stream: 'both'}).then (output) ->
     lines = output.stderr.split("\n")
     messages = []
