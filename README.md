@@ -1,11 +1,11 @@
-#linter-verilog
+# linter-verilog
 
 Atom linter for Verilog, using [Icarus Verilog](http://iverilog.icarus.com).  
 
 ![Screenshot](https://raw.githubusercontent.com/manucorporat/linter-verilog/master/screenshot.png)
 
 
-#Installation
+## Installation
 
 1. [Install icarus verilog](https://bleyer.org/icarus/). 
 On OSX you can just use **brew**:  
@@ -19,3 +19,9 @@ $ brew install icarus-verilog
  ```
 $ apm install linter-verilog
 ```
+
+## Notes on installation
+
+- GTKWave is not necessary for linting. 
+- I did install MinGW dependencies
+- I did not create a desktop shortcut.
