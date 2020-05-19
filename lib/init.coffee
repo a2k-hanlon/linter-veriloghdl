@@ -4,7 +4,7 @@ path = require 'path'
 
 lint = (editor) ->
   helpers = require('atom-linter')
-  regex = /((?:[A-Z]:)?[^:]+):([^:]+):(?: *(error|warning):)? *(.+)/
+  regex = /((?:[A-Z]:)?[^:]+):([^:]+):(?: *(error|warning|sorry):)? *(.+)/
   file = editor.getPath()
   dirname = path.dirname(file)
   # fileParient = path.join(dirname,'..')
@@ -31,8 +31,10 @@ lint = (editor) ->
       if !parts || parts.length != 5
         console.debug("Dropping line:", line)
       else
-        severity_tmp = parts[3] # should be 'error' or 'warning'
-        if severity_tmp != 'warning'
+        severity_tmp = parts[3] # should be 'error' or 'warning' or 'sorry'
+        if severity_tmp == 'sorry'
+          severity_tmp = 'info'
+        else if severity_tmp != 'warning'
           severity_tmp = 'error'
         message =
           location: {
