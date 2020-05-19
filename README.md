@@ -25,3 +25,9 @@ $ apm install linter-verilog
 - GTKWave is not necessary for linting. 
 - I did install MinGW dependencies
 - I did not create a desktop shortcut.
+
+If cloning this fork of the original package instead of using the atom package manager ```apm``` to get the original as above, do the following:
+
+1. Clone this repository into the ~/.atom/packages/ directory
+2. In a terminal, navigate to the  ~/.atom/packages/linter-verilog directory and run ```apm install``` to install some of the dependencies
+3. Restart Atom
