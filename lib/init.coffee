@@ -32,14 +32,21 @@ lint = (editor) ->
         console.debug("Dropping line:", line)
       else
         severity_tmp = parts[3] # should be 'error' or 'warning' or 'sorry'
+        file_tmp = parts[1].trim()
         if severity_tmp == 'sorry'
           severity_tmp = 'info'
         else if severity_tmp != 'warning'
           severity_tmp = 'error'
+        # Don't try to parse line number if error is in another file
+        if file_tmp == editor.getPath()
+          position_tmp = helpers.rangeFromLineNumber(editor, parseInt(parts[2])-1, 0)
+        else
+          position_tmp = [[0, 0], [0, 0]]
+
         message =
           location: {
-            file: parts[1].trim()
-            position: helpers.rangeFromLineNumber(editor, parseInt(parts[2])-1, 0)
+            file: file_tmp
+            position: position_tmp
           }
           severity: severity_tmp
           excerpt: parts[4]
