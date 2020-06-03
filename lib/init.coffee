@@ -65,7 +65,7 @@ module.exports =
 
   provideLinter: ->
     provider =
-      grammarScopes: ['source.verilog']
+      grammarScopes: ['source.verilog', 'source.systemverilog']
       scope: 'project'
       lintsOnChange: false
       name: 'Verilog'
