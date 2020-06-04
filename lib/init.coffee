@@ -37,11 +37,12 @@ lint = (editor) ->
           severity_tmp = 'info'
         else if severity_tmp != 'warning'
           severity_tmp = 'error'
+        line_num = parseInt(parts[2])-1;
         # Don't try to parse line number if error is in another file
         if file_tmp == editor.getPath()
-          position_tmp = helpers.rangeFromLineNumber(editor, parseInt(parts[2])-1, 0)
+          position_tmp = helpers.rangeFromLineNumber(editor, line_num, 0)
         else
-          position_tmp = [[0, 0], [0, 0]]
+          position_tmp = [[line_num, 0], [line_num+1, 0]]
 
         message =
           location: {
