@@ -36,6 +36,8 @@ lint = (editor) ->
           severity_tmp = parts[3] # should be 'error' or 'warning' or 'sorry'
           file_tmp = parts[1].trim()
           if severity_tmp == 'sorry'
+            if atom.config.get('linter-verilog.suppressSorry')
+              continue # skip this message
             severity_tmp = 'info'
           else if severity_tmp != 'warning'
             severity_tmp = 'error'
@@ -123,6 +125,12 @@ module.exports =
       default: ['-Wall']
       description: 'Comma separated list of iverilog options (note that \"-t null\" will be added)'
       order: 5
+    suppressSorry:
+      title: 'Suppress iverilog \"sorry\" type info messages'
+      type: 'boolean'
+      default: false
+      description: 'These messages may alert that iverilog does not support all SystemVerilog constructs'
+      order: 6
 
   activate: ->
     require('atom-package-deps').install('linter-verilog')
