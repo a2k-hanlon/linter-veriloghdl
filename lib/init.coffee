@@ -129,7 +129,8 @@ module.exports =
       title: 'Suppress iverilog \"sorry\" type info messages'
       type: 'boolean'
       default: false
-      description: 'These messages may alert that iverilog does not support all SystemVerilog constructs'
+      description: 'These messages may warn that iverilog does not support all SystemVerilog 
+      constructs, but this doesn\'t matter for linting'
       order: 6
 
   activate: ->
