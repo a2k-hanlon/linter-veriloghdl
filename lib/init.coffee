@@ -4,63 +4,126 @@ path = require 'path'
 
 lint = (editor) ->
   helpers = require('atom-linter')
-  regex = /((?:[A-Z]:)?[^:]+):([^:]+):(?: *(error|warning|sorry):)? *(.+)/
   file = editor.getPath()
   dirname = path.dirname(file)
-  # fileParient = path.join(dirname,'..')
-  console.log(dirname)
-  # vfiles = []
-  lock = true
-  afiles = ("#{file}" for file in fs.readdirSync(dirname))
-  vfiles = ("#{path.join(dirname,afile) if afile.match(/.*\.s?v$/)}" for afile in afiles).filter (x) -> x != 'undefined'
-  console.debug(vfiles)
+  compiler = atom.config.get('linter-verilog.compiler')
+  
+  if compiler == 'iverilog'
+    regex = /((?:[A-Z]:)?[^:]+):([^:]+):(?: *(error|warning|sorry):)? *(.+)/
+    console.log(dirname)
+    lock = true
+    afiles = ("#{file}" for file in fs.readdirSync(dirname))
+    vfiles = ("#{path.join(dirname,afile) if afile.match(/.*\.s?v$/)}" for afile in afiles).filter (x) -> x != 'undefined'
+    console.debug(vfiles)
 
-  args = ("#{arg}" for arg in atom.config.get('linter-verilog.extraOptions'))
-  args = args.concat ['-t', 'null', '-I', dirname]
-  args = args.concat vfiles
-  console.log(args)
-  helpers.exec('iverilog', args, {stream: 'both'}).then (output) ->
-    lines = output.stderr.split("\n")
-    messages = []
-    for line in lines
-      if line.length == 0
-        continue;
+    args = ("#{arg}" for arg in atom.config.get('linter-verilog.iverilogOptions'))
+    args = args.concat ['-t', 'null', '-I', dirname]
+    args = args.concat vfiles
+    command = atom.config.get('linter-verilog.iverilogExecutable')
+    console.log(command, args)
+    helpers.exec(command, args, {stream: 'both'}).then (output) ->
+      lines = output.stderr.split("\n")
+      messages = []
+      for line in lines
+        if line.length == 0
+          continue;
 
-      console.log(line)
-      parts = line.match(regex)
-      if !parts || parts.length != 5
-        console.debug("Dropping line:", line)
-      else
-        severity_tmp = parts[3] # should be 'error' or 'warning' or 'sorry'
-        file_tmp = parts[1].trim()
-        if severity_tmp == 'sorry'
-          severity_tmp = 'info'
-        else if severity_tmp != 'warning'
-          severity_tmp = 'error'
-        line_num = parseInt(parts[2])-1;
-        # Don't try to parse line number if error is in another file
-        if file_tmp == editor.getPath()
-          position_tmp = helpers.rangeFromLineNumber(editor, line_num, 0)
+        console.log(line)
+        parts = line.match(regex)
+        if !parts || parts.length != 5
+          console.debug("Dropping line:", line)
         else
-          position_tmp = [[line_num, 0], [line_num+1, 0]]
+          severity_tmp = parts[3] # should be 'error' or 'warning' or 'sorry'
+          file_tmp = parts[1].trim()
+          if severity_tmp == 'sorry'
+            severity_tmp = 'info'
+          else if severity_tmp != 'warning'
+            severity_tmp = 'error'
+          line_num = parseInt(parts[2])-1;
+          # Don't try to parse line number if error is in another file
+          if file_tmp == editor.getPath()
+            position_tmp = helpers.generateRange(editor, line_num, 0)
+          else
+            position_tmp = [[line_num, 0], [line_num+1, 0]]
 
-        message =
-          location: {
-            file: file_tmp
-            position: position_tmp
-          }
-          severity: severity_tmp
-          excerpt: parts[4]
-        messages.push(message)
+          message =
+            location: {
+              file: file_tmp
+              position: position_tmp
+            }
+            severity: severity_tmp
+            excerpt: parts[4]
+          messages.push(message)
 
-    return messages
+      return messages
+
+  else # compiler == 'verilator'
+    regex = /%(Error|Warning)(?:-([A-Z0-9_]+))?: ((?:[A-Z]:)?(?:[^\s:]+)):(\d+):(?:(\d+):)?(.+)/
+    file = file.replace(/\\/g,"/")
+
+    args = ("#{arg}" for arg in atom.config.get('linter-verilog.verilatorOptions'))
+    args = args.concat ['-I' + dirname,  file]
+    command = atom.config.get('linter-verilator.executable')
+    console.log(command, args)
+    return helpers.exec(command, args, {stream: 'stderr', allowEmptyStderr: true}).then (output) ->
+      lines = output.split("\n")
+      messages = []
+      for line in lines
+        if line.length == 0
+          continue;
+
+        console.log(line)
+        parts = line.match(regex)
+        if !parts || parts.length != 7 || (file != parts[3].trim())
+          console.debug("Dropping line:", line)
+        else
+          column_num = if parts[5] then column_num = parseInt(parts[5]) - 1 else 0
+          message_position = helpers.generateRange(editor, Math.min(editor.getLineCount(), parseInt(parts[4]))-1, column_num)
+          message =
+            location: {
+              file: path.normalize(parts[3].trim()),
+              position: message_position
+            }
+            severity: parts[1].toLowerCase()
+            excerpt: (if parts[2] then parts[2] + ": " else "") + parts[6].trim()
+
+          #console.log(message)
+          messages.push(message)
+
+      return messages
+# end lint
 
 module.exports =
   config:
-    extraOptions:
+    compiler:
+      type: 'string'
+      default:'verilator'
+      enum: ['verilator', 'iverilog']
+      description: 'Verilog/SystemVerilog compiler for this linter provider to use'
+      order: 1
+    verilatorExecutable:
+      type: 'string'
+      default: 'verilator'
+      description: 'Path to verilator executable'
+      order: 2
+    verilatorOptions:
       type: 'array'
-      default: []
-      description: 'Comma separated list of iverilog options'
+      default: ['--lint-only', '-Wall', '--bbox-sys', '--bbox-unsup', '-DGLBL']
+      description: 'Comma separated list of verilator options'
+      order: 3
+    iverilogExecutable:
+      title: 'iverilog Executable'
+      type: 'string'
+      default: 'iverilog'
+      description: 'Path to iverilog executable'
+      order: 4
+    iverilogOptions:
+      title: 'iverilog Options'
+      type: 'array'
+      default: ['-Wall']
+      description: 'Comma separated list of iverilog options (note that \"-t null\" will be added)'
+      order: 5
+
   activate: ->
     require('atom-package-deps').install('linter-verilog')
 
@@ -69,5 +132,5 @@ module.exports =
       grammarScopes: ['source.verilog', 'source.systemverilog']
       scope: 'project'
       lintsOnChange: false
-      name: 'Verilog'
+      name: 'Verilog/SystemVerilog'
       lint: (editor) => lint(editor)
