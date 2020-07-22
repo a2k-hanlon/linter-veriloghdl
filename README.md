@@ -1,33 +1,50 @@
 # linter-verilog
 
-Atom linter for Verilog, using [Icarus Verilog](http://iverilog.icarus.com).  
+Atom linter for Verilog/SystemVerilog, using [Icarus Verilog](http://iverilog.icarus.com) or [Verilator](https://www.veripool.org/wiki/verilator).  
 
-![Screenshot](https://raw.githubusercontent.com/manucorporat/linter-verilog/master/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/a2k-hanlon/linter-verilog/verilator/screenshot.png)
 
 
-## Installation
+## Compiler Installation
 
-1. [Install icarus verilog](https://bleyer.org/icarus/). 
-On OSX you can just use **brew**:  
+### Icarus Verilog (iverilog)
 
- ```
-$ brew install icarus-verilog
-```
+On Linux, you can install it using your package manager: eg. ```apt install iverilog```
 
-2. Install atom package:  
+On macOS, you can use homebrew: ```brew install icarus-verilog```
 
- ```
-$ apm install linter-verilog
-```
+On Windows, the easiest way to install Icarus Verilog is using a pre-built installer, like those available here: https://bleyer.org/icarus/.
 
-## Notes on installation
+### Verilator
 
-- GTKWave is not necessary for linting. 
-- I did install MinGW dependencies
-- I did not create a desktop shortcut.
+On Linux, you can install Verilator using your package manager: eg. ```apt install verilator```
 
-If cloning this fork of the original package instead of using the atom package manager ```apm``` to get the original as above, do the following:
+On macOS, you can use homebrew: ```brew install verilator```
 
-1. Clone this repository into the ~/.atom/packages/ directory
-2. In a terminal, navigate to the  ~/.atom/packages/linter-verilog directory and run ```apm install``` to install some of the dependencies
-3. Restart Atom
+On Windows, you can obtain Verilator through [MSYS2](https://www.msys2.org/), or compile it from source using MinGW or Cygwin. See https://www.veripool.org/projects/verilator/wiki/Installing for details.
+
+Note that GTKWave is not necessary for linting. This applies to both compilers.
+
+
+## Package Installation and Setup
+
+1. Install this package through the "Install" tab in Atom's settings, or run ```apm install linter-verilog```.
+2. Open the settings for this package through Atom's settings. Choose which compiler to use, and specify the path to either compiler's executable if necessary. For example, with Verilator on Windows you may need to enter ```C:\verilator\bin\verilator_bin.exe``` for "Verilator Executable".
+3. If you wish, you can modify the command arguments to iverilog or verilator by entering options as a comma-separated list.
+
+
+## Linting SystemVerilog with Icarus Verilog
+
+Icarus Verilog does not completely support SystemVerilog, but for linting it may suffice. Most likely, you will want to add the ```-g2012``` option to iverilog in the package settings if linting SystemVerilog.
+
+
+## Other notes
+
+- Be aware that Verilator seems to struggle with spaces in filepaths, at least on Windows.
+- See https://iverilog.fandom.com/wiki/Iverilog_Flags for iverilog options
+- See https://www.veripool.org/projects/verilator/wiki/Manual-verilator for verilator options
+
+
+## Acknoledgments
+
+This package is based on the [linter-verilog](https://github.com/manucorporat/linter-verilog) and [linter-verilator](https://github.com/patstew/linter-verilator) packages for Atom, along with a few of their forks. Thanks to the authors of these packages!
