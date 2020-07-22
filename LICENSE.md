@@ -1,4 +1,4 @@
-Copyright (c) 2015 Manu Martinez-Almeida
+Copyright (c) 2020 Manu Martinez-Almeida, Patrick Stewart, Andrew Hanlon
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
