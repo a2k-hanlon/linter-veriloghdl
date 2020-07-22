@@ -35,16 +35,16 @@ Note that GTKWave is not necessary for linting. This applies to both compilers.
 
 ## Linting SystemVerilog with Icarus Verilog
 
-Icarus Verilog does not completely support SystemVerilog, but for linting it may suffice. Most likely, you will want to add the ```-g2012``` option to iverilog in the package settings if linting SystemVerilog.
+Icarus Verilog does not completely support SystemVerilog, but for linting this compiler may suffice. Most likely, you will want to add the ```-g2012``` option to iverilog in the package settings if linting SystemVerilog.
 
 
-## Other notes
+## Other Notes
 
 - Be aware that Verilator seems to struggle with spaces in filepaths, at least on Windows.
 - See https://iverilog.fandom.com/wiki/Iverilog_Flags for iverilog options
 - See https://www.veripool.org/projects/verilator/wiki/Manual-verilator for verilator options
 
 
-## Acknoledgments
+## Acknowledgments
 
 This package is based on the [linter-verilog](https://github.com/manucorporat/linter-verilog) and [linter-verilator](https://github.com/patstew/linter-verilator) packages for Atom, along with a few of their forks. Thanks to the authors of these packages!
