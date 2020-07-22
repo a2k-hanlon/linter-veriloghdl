@@ -32,13 +32,11 @@ Note that GTKWave is not necessary for linting. This applies to both compilers.
 2. Open the settings for this package through Atom's settings. Choose which compiler to use, and specify the path to either compiler's executable if necessary. For example, with Verilator on Windows you may need to enter ```C:\verilator\bin\verilator_bin.exe``` for "Verilator Executable".
 3. If you wish, you can modify the command arguments to iverilog or verilator by entering options as a comma-separated list.
 
-
-## Linting SystemVerilog with Icarus Verilog
+### Linting SystemVerilog with Icarus Verilog
 
 Icarus Verilog does not completely support SystemVerilog, but for linting this compiler may suffice. Most likely, you will want to add the ```-g2012``` option to iverilog in the package settings if linting SystemVerilog.
 
-
-## Other Notes
+### Other Notes
 
 - Be aware that Verilator seems to struggle with spaces in filepaths, at least on Windows.
 - See https://iverilog.fandom.com/wiki/Iverilog_Flags for iverilog options
