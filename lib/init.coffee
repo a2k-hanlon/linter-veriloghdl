@@ -44,7 +44,7 @@ lint = (editor) ->
           line_num = parseInt(parts[2])-1;
           # Don't try to parse line number if error is in another file
           if file_tmp == editor.getPath()
-            position_tmp = helpers.generateRange(editor, line_num, 0)
+            position_tmp = helpers.generateRange(editor, line_num)
           else
             position_tmp = [[line_num, 0], [line_num+1, 0]]
 
