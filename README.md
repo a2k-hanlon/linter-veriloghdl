@@ -2,7 +2,7 @@
 
 Atom linter for Verilog/SystemVerilog, using [Icarus Verilog](http://iverilog.icarus.com) or [Verilator](https://www.veripool.org/wiki/verilator).  
 
-![Screenshot](https://raw.githubusercontent.com/a2k-hanlon/linter-verilog/verilator/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/a2k-hanlon/linter-verilog/master/screenshot.png)
 
 
 ## Compiler Installation
@@ -21,7 +21,7 @@ On Linux, you can install Verilator using your package manager: eg. ```apt insta
 
 On macOS, you can use homebrew: ```brew install verilator```
 
-On Windows, you can obtain Verilator through [MSYS2](https://www.msys2.org/), or compile it from source using MinGW or Cygwin. See https://www.veripool.org/projects/verilator/wiki/Installing for details. Instructions for compiling Verilator from source with Cygwin are also included with this package in [verilator-install-windows.md](https://github.com/a2k-hanlon/linter-verilog/blob/verilator/verilator-install-windows.md)
+On Windows, you can obtain Verilator through [MSYS2](https://www.msys2.org/), or compile it from source using MinGW or Cygwin. See https://www.veripool.org/projects/verilator/wiki/Installing for details. Instructions for compiling Verilator from source with Cygwin are also included with this package in [verilator-install-windows.md](https://github.com/a2k-hanlon/linter-verilog/blob/master/verilator-install-windows.md)
 
 Note that GTKWave is not necessary for linting. This applies to both compilers.
 
