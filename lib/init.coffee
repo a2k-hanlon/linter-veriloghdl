@@ -64,7 +64,7 @@ lint = (editor) ->
     file = file.replace(/\\/g,"/")
 
     args = ("#{arg}" for arg in atom.config.get('linter-verilog.verilatorOptions'))
-    args = args.concat ['-I' + dirname,  file]
+    args = args.concat ['--lint-only', '-I' + dirname, file]
     command = atom.config.get('linter-verilator.executable')
     console.log(command, args)
     return helpers.exec(command, args, {stream: 'stderr', allowEmptyStderr: true}).then (output) ->
@@ -110,8 +110,8 @@ module.exports =
       order: 2
     verilatorOptions:
       type: 'array'
-      default: ['--lint-only', '-Wall', '--bbox-sys', '--bbox-unsup', '-DGLBL']
-      description: 'Comma separated list of verilator options'
+      default: ['-Wall', '--bbox-sys', '--bbox-unsup']
+      description: 'Comma separated list of verilator options (note that \"--lint-only\" will be added)'
       order: 3
     iverilogExecutable:
       title: 'iverilog Executable'
