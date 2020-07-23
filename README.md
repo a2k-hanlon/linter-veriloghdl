@@ -1,8 +1,8 @@
-# linter-verilog
+# linter-systemverilog
 
 Atom linter for Verilog/SystemVerilog, using [Icarus Verilog](http://iverilog.icarus.com) or [Verilator](https://www.veripool.org/wiki/verilator).  
 
-![Screenshot](https://raw.githubusercontent.com/a2k-hanlon/linter-verilog/master/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/a2k-hanlon/linter-systemverilog/master/screenshot.png)
 
 
 ## Compiler Installation
@@ -21,14 +21,14 @@ On Linux, you can install Verilator using your package manager: eg. ```apt insta
 
 On macOS, you can use homebrew: ```brew install verilator```
 
-On Windows, you can obtain Verilator through [MSYS2](https://www.msys2.org/), or compile it from source using MinGW or Cygwin. See https://www.veripool.org/projects/verilator/wiki/Installing for details. Instructions for compiling Verilator from source with Cygwin are also included with this package in [verilator-install-windows.md](https://github.com/a2k-hanlon/linter-verilog/blob/master/verilator-install-windows.md)
+On Windows, you can obtain Verilator through [MSYS2](https://www.msys2.org/), or compile it from source using MinGW or Cygwin. See https://www.veripool.org/projects/verilator/wiki/Installing for details. Instructions for compiling Verilator from source with Cygwin are also included with this package in [verilator-install-windows.md](https://github.com/a2k-hanlon/linter-systemverilog/blob/master/verilator-install-windows.md)
 
 Note that GTKWave is not necessary for linting. This applies to both compilers.
 
 
 ## Package Installation and Setup
 
-1. Install this package through the "Install" tab in Atom's settings, or run ```apm install linter-verilog```.
+1. Install this package through the "Install" tab in Atom's settings, or run ```apm install linter-systemverilog```.
 2. Open the settings for this package through Atom's settings. Choose which compiler to use, and specify the path to either compiler's executable if necessary. For example, with Verilator on Windows you may need to enter ```C:\verilator\bin\verilator_bin.exe``` for "Verilator Executable".
 3. If you wish, you can modify the command arguments to iverilog or verilator by entering options as a comma-separated list.
 
