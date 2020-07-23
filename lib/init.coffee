@@ -65,7 +65,7 @@ lint = (editor) ->
 
     args = ("#{arg}" for arg in atom.config.get('linter-systemverilog.verilatorOptions'))
     args = args.concat ['--lint-only', '-I' + dirname, file]
-    command = atom.config.get('linter-verilator.executable')
+    command = atom.config.get('linter-systemverilog.verilatorExecutable')
     console.log(command, args)
     return helpers.exec(command, args, {stream: 'stderr', allowEmptyStderr: true}).then (output) ->
       lines = output.split("\n")
