@@ -6,7 +6,7 @@ lint = (editor) ->
   helpers = require('atom-linter')
   file = editor.getPath()
   dirname = path.dirname(file)
-  compiler = atom.config.get('linter-systemverilog.compiler')
+  compiler = atom.config.get('linter-veriloghdl.compiler')
   
   if compiler == 'iverilog'
     regex = /((?:[A-Z]:)?[^:]+):([^:]+):(?: *(error|warning|sorry):)? *(.+)/
@@ -16,10 +16,10 @@ lint = (editor) ->
     vfiles = ("#{path.join(dirname,afile) if afile.match(/.*\.s?v$/)}" for afile in afiles).filter (x) -> x != 'undefined'
     console.debug(vfiles)
 
-    args = ("#{arg}" for arg in atom.config.get('linter-systemverilog.iverilogOptions'))
+    args = ("#{arg}" for arg in atom.config.get('linter-veriloghdl.iverilogOptions'))
     args = args.concat ['-t', 'null', '-I', dirname]
     args = args.concat vfiles
-    command = atom.config.get('linter-systemverilog.iverilogExecutable')
+    command = atom.config.get('linter-veriloghdl.iverilogExecutable')
     console.log(command, args)
     helpers.exec(command, args, {stream: 'both'}).then (output) ->
       lines = output.stderr.split("\n")
@@ -36,7 +36,7 @@ lint = (editor) ->
           severity_tmp = parts[3] # should be 'error' or 'warning' or 'sorry'
           file_tmp = parts[1].trim()
           if severity_tmp == 'sorry'
-            if atom.config.get('linter-systemverilog.suppressSorry')
+            if atom.config.get('linter-veriloghdl.suppressSorry')
               continue # skip this message
             severity_tmp = 'info'
           else if severity_tmp != 'warning'
@@ -63,9 +63,9 @@ lint = (editor) ->
     regex = /%(Error|Warning)(?:-([A-Z0-9_]+))?: ((?:[A-Z]:)?(?:[^\s:]+)):(\d+):(?:(\d+):)?(.+)/
     file = file.replace(/\\/g,"/")
 
-    args = ("#{arg}" for arg in atom.config.get('linter-systemverilog.verilatorOptions'))
+    args = ("#{arg}" for arg in atom.config.get('linter-veriloghdl.verilatorOptions'))
     args = args.concat ['--lint-only', '-I' + dirname, file]
-    command = atom.config.get('linter-systemverilog.verilatorExecutable')
+    command = atom.config.get('linter-veriloghdl.verilatorExecutable')
     console.log(command, args)
     return helpers.exec(command, args, {stream: 'stderr', allowEmptyStderr: true}).then (output) ->
       lines = output.split("\n")
@@ -134,7 +134,7 @@ module.exports =
       order: 6
 
   activate: ->
-    require('atom-package-deps').install('linter-systemverilog')
+    require('atom-package-deps').install('linter-veriloghdl')
 
   provideLinter: ->
     provider =

@@ -1,5 +1,5 @@
 {
-  "name": "linter-systemverilog",
+  "name": "linter-veriloghdl",
   "main": "./lib/init",
   "version": "0.0.0",
   "description": "Atom linter for Verilog/SystemVerilog, using Icarus Verilog or Verilator.",
@@ -13,7 +13,7 @@
     "compiler",
     "hdl"
   ],
-  "repository": "https://github.com/a2k-hanlon/linter-systemverilog",
+  "repository": "https://github.com/a2k-hanlon/linter-veriloghdl",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
