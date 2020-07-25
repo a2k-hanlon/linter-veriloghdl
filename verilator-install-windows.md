@@ -28,13 +28,13 @@ Note: These instructions assume Git is set up and installed.
 
 1. Download the Cygwin installer "setup-x86_64.exe" from https://www.cygwin.com/. Make sure you keep this program, as it is used to **update** as well as install Cygwin and the programs installed under it.
 
-2. I installed cygwin to ```C:\cygwin64```, with ```C:\cygwin64``` as the "Local Package Directory." Afterwards, I moved "setup-x86_64.exe" to ```C:\cygwin64``` as well, to keep all of Cygwin's stuff in one place.
+2. I installed Cygwin to ```C:\cygwin64```, with ```C:\cygwin64``` as the "Local Package Directory." Afterwards, I moved "setup-x86_64.exe" to ```C:\cygwin64``` as well, to keep all of Cygwin's stuff in one place.
 
-3. Add ```C:\cygwin64\bin``` to the Windows PATH veriable. The fastest way to get to the PATH settings is by typing "path" into the Windows search tool and selecting "Edit the system environment variables." In the window that comes up, click the "Environament Variables" button near the bottom. From the list in the next popup window, select "PATH" and click "Edit". Here, you can add an entry to the PATH.
+3. Add ```C:\cygwin64\bin``` to the Windows PATH variable. The fastest way to get to the PATH settings is by typing "path" into the Windows search tool and selecting "Edit the system environment variables." In the window that comes up, click the "Environment Variables" button near the bottom. From the list in the next popup window, select "PATH" and click "Edit". Here, you can add an entry to the PATH.
 
 The following instructions follow [Verilator's installation instructions](https://www.veripool.org/projects/verilator/wiki/Installing):
 
-4. Having installed base cygwin, run Cygwin's "setup-x86_64.exe" program again to download Verilator's dependencies. That meant ensuring the latest (non-test) version of each of the following programs are installed:
+4. Having installed base Cygwin, run Cygwin's "setup-x86_64.exe" program again to download Verilator's dependencies. That means ensuring the latest (non-test) version of each of the following programs are installed:
     - perl
     - python3
     - make
@@ -45,13 +45,13 @@ The following instructions follow [Verilator's installation instructions](https:
 
 ### Part 2 - Get the Verilator Source
 
-1. Clone verilator into your location of choice with ```git clone https://github.com/verilator/verilator```. I cloned it to ```C:\```, giving me the source in ```C:\verilator\```
+1. Clone Verilator into your location of choice with ```git clone https://github.com/verilator/verilator```. I cloned it to ```C:\```, giving me the source in ```C:\verilator\```
 
-2. In the cygwin terminal, run ```cd /cygdrive/c/verilator``` or wherever you cloned the verilator repository
+2. In the Cygwin terminal, run ```cd /cygdrive/c/verilator``` or wherever you cloned the Verilator repository
 
 3. Run ```git pull```
 
-4. Checkout the "stable" branch of verilator by running ```git checkout stable```
+4. Checkout the "stable" branch of Verilator by running ```git checkout stable```
 
 ### Part 3 - Set up Verilator
 
@@ -63,7 +63,7 @@ The following instructions follow [Verilator's installation instructions](https:
 
 4. Run ```make test``` to ensure there were no problems. If things were successful, ```Tests passed!``` should have been printed near the end of the long train of test output.
 
-5. To make things are set up such Cygwin-based programs can be run from PowerShell, a command prompt, or other programs, open powershell and run ```\verilator\bin\verilator_bin.exe -V```. Something like ```Verilator 4.038 2020-07-11 rev v4.038-8-gdd03d0f3``` should be printed immediately. If the command was unsuccessful, or printed nothing, it's likely that something went astray along the way here.
+5. To make things are set up such Cygwin-based programs can be run from PowerShell, Command Prompt, or other programs, open PowerShell and run ```\verilator\bin\verilator_bin.exe -V```. Something like ```Verilator 4.038 2020-07-11 rev v4.038-8-gdd03d0f3``` should be printed immediately. If the command was unsuccessful, or printed nothing, it's likely that something went astray along the way here.
 
 That's it! Verilator should now be ready to use. Note that you may want to add Verilator to your PATH environment variable, if this fits your needs.
 
