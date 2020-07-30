@@ -23,7 +23,7 @@ On macOS, you can use homebrew: ```brew install verilator```
 
 On Windows, you can obtain Verilator through [MSYS2](https://www.msys2.org/), or compile it from source using MinGW or Cygwin. Instructions for installing Verilator on Windows are included with this package in [verilator-install-windows.md](https://github.com/a2k-hanlon/linter-veriloghdl/blob/master/verilator-install-windows.md). There are instructions for installation with MSYS2 and for compiling Verilator from source with Cygwin.
 
-Note that GTKWave is not necessary for linting. This applies to both compilers.
+Note that GTKWave is not necessary for linting, even though it may be bundled with intstallers or suggested by documentation for the compilers.
 
 
 ## Package Installation and Setup
