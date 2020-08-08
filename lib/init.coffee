@@ -103,7 +103,7 @@ lint = (editor) ->
     util = require('util')
     execFile = util.promisify(require('child_process').execFile)
 
-    regex = /((?:[A-Z]:)?(?:[^\s:]+)):(\d+):(\d+): *(error|warning):(.+)/
+    regex = /((?:[A-Z]:)?(?:[^\s:]+)):(\d+):(\d+): *(error|warning|note):(.+)/
 
     args = ("#{arg}" for arg in atom.config.get('linter-veriloghdl.slangOptions'))
     args = args.concat ['--color-diagnostics=false', '-I' + dirname, file]
@@ -137,7 +137,7 @@ lint = (editor) ->
               file: file,
               position: message_position
             }
-            severity: parts[4]
+            severity: if parts[4] == 'note' then 'info' else parts[4]
             excerpt: parts[5].trim()
 
           # console.log(message)
