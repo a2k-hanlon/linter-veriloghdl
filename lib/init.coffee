@@ -59,7 +59,7 @@ lint = (editor) ->
 
       return messages
 
-  else # compiler == 'verilator'
+  else if compiler == 'verilator'
     regex = /%(Error|Warning)(?:-([A-Z0-9_]+))?: ((?:[A-Z]:)?(?:[^\s:]+)):(\d+):(?:(\d+):)?(.+)/
     file = file.replace(/\\/g,"/")
 
@@ -93,6 +93,54 @@ lint = (editor) ->
           messages.push(message)
 
       return messages
+
+  else # compiler == 'slang'
+    util = require('util')
+    execFile = util.promisify(require('child_process').execFile)
+
+    regex = /((?:[A-Z]:)?(?:[^\s:]+)):(\d+):(\d+): *(error|warning):(.+)/
+
+    args = ("#{arg}" for arg in atom.config.get('linter-veriloghdl.slangOptions'))
+    args = args.concat ['--color-diagnostics=false', '-I' + dirname, file]
+    command = atom.config.get('linter-veriloghdl.slangExecutable')
+    console.log(command, args)
+    return execFile(command, args, {encoding: 'utf16le'})
+    .then () ->
+      return [] # slang exited with code 0; no issues detected
+    .catch (error) ->
+      # slang exited with non-zero exit code since issues were detected;
+      # promisified execFile() considers a non-zero exit code to be an
+      #   error, so catch() is used
+
+      # console.log(error.stdout)
+      messages = []
+      lines = error.stdout.split("\n")
+      for line in lines
+        if line.length == 0
+          continue;
+
+        console.log(line)
+        parts = line.match(regex)
+        if !parts || parts.length != 6
+          console.debug("Dropping line:", line)
+        else
+          line_num = Math.min(editor.getLineCount(), parseInt(parts[2]) - 1)
+          column_num = parseInt(parts[3]) - 1
+          message_position = helpers.generateRange(editor, line_num, column_num)
+          message =
+            location: {
+              file: file,
+              position: message_position
+            }
+            severity: parts[4]
+            excerpt: parts[5].trim()
+
+          # console.log(message)
+          messages.push(message)
+
+      return messages
+    # end execFile
+
 # end lint
 
 module.exports =
@@ -100,38 +148,49 @@ module.exports =
     compiler:
       type: 'string'
       default:'verilator'
-      enum: ['verilator', 'iverilog']
+      enum: ['iverilog', 'slang', 'verilator']
       description: 'Verilog/SystemVerilog compiler for this linter provider to use'
       order: 1
-    verilatorExecutable:
-      type: 'string'
-      default: 'verilator'
-      description: 'Path to verilator executable'
-      order: 2
-    verilatorOptions:
-      type: 'array'
-      default: ['-Wall', '--bbox-sys', '--bbox-unsup']
-      description: 'Comma separated list of verilator options (note that \"--lint-only\" will be added)'
-      order: 3
     iverilogExecutable:
       title: 'iverilog Executable'
       type: 'string'
       default: 'iverilog'
       description: 'Path to iverilog executable'
-      order: 4
+      order: 2
     iverilogOptions:
       title: 'iverilog Options'
       type: 'array'
       default: ['-Wall']
       description: 'Comma separated list of iverilog options (note that \"-t null\" will be added)'
-      order: 5
+      order: 3
     suppressSorry:
       title: 'Suppress iverilog \"sorry\" type info messages'
       type: 'boolean'
       default: false
-      description: 'These messages may warn that iverilog does not support all SystemVerilog 
+      description: 'These messages may warn that iverilog does not support all SystemVerilog
       constructs, but this doesn\'t matter for linting'
+      order: 4
+    slangExecutable:
+      type: 'string'
+      default: 'slang'
+      description: 'Path to slang executable'
+      order: 5
+    slangOptions:
+      type: 'array'
+      default: ['-Weverything']
+      description: 'Comma separated list of slang options'
       order: 6
+    verilatorExecutable:
+      type: 'string'
+      default: 'verilator'
+      description: 'Path to verilator executable'
+      order: 7
+    verilatorOptions:
+      type: 'array'
+      default: ['-Wall', '--bbox-sys', '--bbox-unsup']
+      description: 'Comma separated list of verilator options (note that \"--lint-only\" will be added)'
+      order: 8
+
 
   activate: ->
     require('atom-package-deps').install('linter-veriloghdl')
