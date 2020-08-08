@@ -1,19 +1,19 @@
 { CompositeDisposable } = require 'atom'
 fs = require 'fs'
 path = require 'path'
+helpers = require('atom-linter')
 
 lint = (editor) ->
-  helpers = require('atom-linter')
   file = editor.getPath()
   dirname = path.dirname(file)
   compiler = atom.config.get('linter-veriloghdl.compiler')
-  
+
   if compiler == 'iverilog'
     regex = /((?:[A-Z]:)?[^:]+):([^:]+):(?: *(error|warning|sorry):)? *(.+)/
-    console.log(dirname)
-    lock = true
-    afiles = ("#{file}" for file in fs.readdirSync(dirname))
-    vfiles = ("#{path.join(dirname,afile) if afile.match(/.*\.s?v$/)}" for afile in afiles).filter (x) -> x != 'undefined'
+    # console.log(dirname)
+    afiles = ("#{dir_file}" for dir_file in fs.readdirSync(dirname))
+    vfiles = ("#{path.join(dirname,afile) if afile.match(/.*\.s?v$/)}" for afile in afiles).filter (x) ->
+      x != 'undefined'
     console.debug(vfiles)
 
     args = ("#{arg}" for arg in atom.config.get('linter-veriloghdl.iverilogOptions'))
@@ -33,28 +33,31 @@ lint = (editor) ->
         if !parts || parts.length != 5
           console.debug("Dropping line:", line)
         else
-          severity_tmp = parts[3] # should be 'error' or 'warning' or 'sorry'
-          file_tmp = parts[1].trim()
-          if severity_tmp == 'sorry'
+          severity_ivlog = parts[3] # should be 'error' or 'warning' or 'sorry'
+          if severity_ivlog == 'sorry'
             if atom.config.get('linter-veriloghdl.suppressSorry')
               continue # skip this message
-            severity_tmp = 'info'
-          else if severity_tmp != 'warning'
-            severity_tmp = 'error'
+            severity_ivlog = 'info'
+          else if severity_ivlog != 'warning'
+            severity_ivlog = 'error'
+
+          file_ivlog = parts[1].trim()
           line_num = parseInt(parts[2])-1;
           # Don't try to parse line number if error is in another file
-          if file_tmp == editor.getPath()
-            position_tmp = helpers.generateRange(editor, line_num)
+          if file_ivlog == file
+            message_position = helpers.generateRange(editor, line_num)
           else
-            position_tmp = [[line_num, 0], [line_num+1, 0]]
+            position_ivlog = [[line_num, 0], [line_num+1, 0]]
 
           message =
             location: {
-              file: file_tmp
-              position: position_tmp
+              file: file_ivlog
+              position: message_position
             }
-            severity: severity_tmp
+            severity: severity_ivlog
             excerpt: parts[4]
+
+          #console.log(message)
           messages.push(message)
 
       return messages
@@ -62,6 +65,7 @@ lint = (editor) ->
   else if compiler == 'verilator'
     regex = /%(Error|Warning)(?:-([A-Z0-9_]+))?: ((?:[A-Z]:)?(?:[^\s:]+)):(\d+):(?:(\d+):)?(.+)/
     file = file.replace(/\\/g,"/")
+    dirname = dirname.replace(/\\/g,"/")
 
     args = ("#{arg}" for arg in atom.config.get('linter-veriloghdl.verilatorOptions'))
     args = args.concat ['--lint-only', '-I' + dirname, file]
@@ -79,8 +83,9 @@ lint = (editor) ->
         if !parts || parts.length != 7 || (file != parts[3].trim())
           console.debug("Dropping line:", line)
         else
-          column_num = if parts[5] then column_num = parseInt(parts[5]) - 1 else 0
-          message_position = helpers.generateRange(editor, Math.min(editor.getLineCount(), parseInt(parts[4]))-1, column_num)
+          line_num = Math.min(editor.getLineCount(), parseInt(parts[4]) - 1)
+          column_num = if parts[5] then parseInt(parts[5]) - 1 else 0
+          message_position = helpers.generateRange(editor, line_num, column_num)
           message =
             location: {
               file: path.normalize(parts[3].trim()),
