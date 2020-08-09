@@ -100,6 +100,9 @@ lint = (editor) ->
       return messages
 
   else # compiler == 'slang'
+    # set up promise-based command execution dependency
+    # node's child_process::execFile is needed since slang's output is
+    #   encoded in UTF-16 LE, which atom-linter::exec doesn't support
     util = require('util')
     execFile = util.promisify(require('child_process').execFile)
 
@@ -109,7 +112,7 @@ lint = (editor) ->
     args = args.concat ['--color-diagnostics=false', '-I' + dirname, file]
     command = atom.config.get('linter-veriloghdl.slangExecutable')
     console.log(command, args)
-    return execFile(command, args, {encoding: 'utf16le'})
+    return execFile(command, args, {cwd: dirname, encoding: 'utf16le'})
     .then () ->
       return [] # slang exited with code 0; no issues detected
     .catch (error) ->
@@ -134,7 +137,7 @@ lint = (editor) ->
           message_position = helpers.generateRange(editor, line_num, column_num)
           message =
             location: {
-              file: file,
+              file: path.join(dirname, parts[1].trim()), # slang gives path relative to working dir
               position: message_position
             }
             severity: if parts[4] == 'note' then 'info' else parts[4]
