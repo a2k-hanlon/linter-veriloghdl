@@ -1,4 +1,10 @@
+# v1.1.0
+2020-08-09
+
+Added support for linting with [slang](https://sv-lang.com/).
+
 # v1.0.0
+2020-07-23
 
 First release! The following changes were made to the source material from [linter-verilog](https://github.com/manucorporat/linter-verilog) and [linter-verilator](https://github.com/patstew/linter-verilator):
 

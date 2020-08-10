@@ -17,6 +17,7 @@ Icarus Verilog does support as much of SystemVerilog as the other tools, but for
 
 ### Other Notes
 
+- The folder containing the file being linted is automatically added as an include directory argument to the compiler
 - Be aware that Verilator seems to struggle with spaces in filepaths, at least on Windows.
 - See https://iverilog.fandom.com/wiki/Iverilog_Flags for iverilog options
 - See https://sv-lang.com/command-line-ref.html for slang options
