@@ -2,7 +2,7 @@
   "name": "linter-veriloghdl",
   "main": "./lib/init",
   "version": "1.0.0",
-  "description": "Atom linter for Verilog/SystemVerilog, using Icarus Verilog or Verilator.",
+  "description": "Atom linter for Verilog/SystemVerilog, using Icarus Verilog, Slang, or Verilator.",
   "keywords": [
     "verilog",
     "systemverilog",

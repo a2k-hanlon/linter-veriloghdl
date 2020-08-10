@@ -6,7 +6,7 @@ Atom linter for Verilog/SystemVerilog, using [Icarus Verilog](http://iverilog.ic
 
 ## Package Installation and Setup
 
-1. Ensure you have one of the supported Verilog/SystemVerilog compilers installed and working. If you do not yet have one installed, see the information in [Compiler Installation](#compiler-installation)
+1. Ensure you have one of the supported Verilog/SystemVerilog compilers installed and working. If you do not yet have one installed, see the information in [Compiler Installation](#compiler-installation).
 2. Install this package through the "Install" tab in Atom's settings, or run ```apm install linter-veriloghdl```.
 3. Open the settings for this package through Atom's settings. Choose which compiler to use, and specify the path to the compiler's executable if necessary. For example, with Verilator on Windows (obtained through MSYS2) you may need to enter ```C:\msys64\mingw64\bin\verilator_bin.exe``` for "Verilator Executable".
 4. If you wish, you can modify the command arguments to any of the compilers by entering options as a comma-separated list.
@@ -17,8 +17,8 @@ Icarus Verilog does support as much of SystemVerilog as the other tools, but for
 
 ### Other Notes
 
-- The folder containing the file being linted is automatically added as an include directory argument to the compiler
-- Be aware that Verilator seems to struggle with spaces in filepaths, at least on Windows.
+- The parent directory of the file being linted is automatically added as an include directory argument to the compiler
+- Be aware that Verilator seems to struggle with spaces in filepaths, at least on Windows
 - See https://iverilog.fandom.com/wiki/Iverilog_Flags for iverilog options
 - See https://sv-lang.com/command-line-ref.html for slang options
 - See https://www.veripool.org/projects/verilator/wiki/Manual-verilator for verilator options
