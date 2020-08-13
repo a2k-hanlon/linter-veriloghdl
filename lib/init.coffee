@@ -99,7 +99,7 @@ lint = (editor) ->
 
       return messages
 
-  else # compiler == 'slang'
+  else if compiler == 'slang'
     # set up promise-based command execution dependency
     # node's child_process::execFile is needed since slang's output may be
     #   encoded in UTF-16 LE, which atom-linter::exec doesn't support
@@ -167,14 +167,18 @@ lint = (editor) ->
       return messages
     # end execFile
 
+  else # compiler == 'none'
+    atom.notifications.addWarning('[linter-veriloghdl] No compiler selected',
+    {detail: 'Please select a compiler in linter-veriloghdl\'s settings.'})
+    return []
 # end lint
 
 module.exports =
   config:
     compiler:
       type: 'string'
-      default:'verilator'
-      enum: ['iverilog', 'slang', 'verilator']
+      default: 'none'
+      enum: ['iverilog', 'slang', 'verilator', 'none']
       description: 'Verilog/SystemVerilog compiler for this linter provider to use'
       order: 1
     iverilogExecutable:
