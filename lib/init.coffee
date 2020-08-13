@@ -128,6 +128,17 @@ lint = (editor) ->
       #   error, so catch() is used
 
       # console.log(error.stdout)
+
+      if error.code == 'ENOENT' # slang could not be run
+        # this has to be implemented here since child_process::execFile() is
+        # used; using atom-linter::exec() this kind of error is thrown elsewhere
+        newError = new Error('Failed to spawn command `' + command + '`. Make
+        sure slang is installed and \"Slang Executable\" in linter-veriloghdl\'s
+        settings is correct.');
+        newError.code = 'ENOENT';
+        throw newError;
+        return []
+
       messages = []
       lines = error.stdout.split("\n")
       for line in lines
