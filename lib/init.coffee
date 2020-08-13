@@ -112,7 +112,14 @@ lint = (editor) ->
     args = args.concat ['--color-diagnostics=false', '-I' + dirname, file]
     command = atom.config.get('linter-veriloghdl.slangExecutable')
     console.log(command, args)
-    return execFile(command, args, {cwd: dirname, encoding: 'utf16le'})
+
+    # slang's Windows binary produces UTF-16 encoded output
+    if process.platform == 'win32'
+      slang_encoding = 'utf16le'
+    else
+      slang_encoding = 'utf8'
+
+    return execFile(command, args, {cwd: dirname, encoding: slang_encoding})
     .then () ->
       return [] # slang exited with code 0; no issues detected
     .catch (error) ->
