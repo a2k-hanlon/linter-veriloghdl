@@ -101,7 +101,7 @@ lint = (editor) ->
 
   else # compiler == 'slang'
     # set up promise-based command execution dependency
-    # node's child_process::execFile is needed since slang's output is
+    # node's child_process::execFile is needed since slang's output may be
     #   encoded in UTF-16 LE, which atom-linter::exec doesn't support
     util = require('util')
     execFile = util.promisify(require('child_process').execFile)
@@ -130,8 +130,8 @@ lint = (editor) ->
       # console.log(error.stdout)
 
       if error.code == 'ENOENT' # slang could not be run
-        # this has to be implemented here since child_process::execFile() is
-        # used; using atom-linter::exec() this kind of error is thrown elsewhere
+        # this has to be implemented here since child_process::execFile() is used;
+        # when using atom-linter::exec(), this kind of error is thrown elsewhere
         newError = new Error('Failed to spawn command `' + command + '`. Make
         sure slang is installed and \"Slang Executable\" in linter-veriloghdl\'s
         settings is correct.');
