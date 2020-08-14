@@ -1,3 +1,10 @@
+# v1.1.1
+2020-08-13
+
+- Fixed an issue with the encoding of slang's output, making it OS-dependent; slang's Windows binary produces UTF-16 encoded output, while its Linux binary outputs UTF-8
+- Added a default compiler option of "none" as well as a warning notification asking for a compiler to be chosen if this default option is set
+- Added error checking for failure to invoke slang
+
 # v1.1.0
 2020-08-09
 
