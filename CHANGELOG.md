@@ -1,6 +1,9 @@
 # Unreleased
 (May at times be empty)
 
+# v1.2.0
+2021-01-10
+
 - Added support for linting with [Verible](https://google.github.io/verible)
 - Added functionality to parse verilator messages with locations in inactive files (files other than the one passed to the linter)
 - Changed linter ID in lint messages from "Verilog/SystemVerilog" to "VerilogHDL" for consistency
