@@ -81,12 +81,16 @@ lint = (editor) ->
 
         console.log(line)
         parts = line.match(regex)
-        if !parts || parts.length != 7 || (file != parts[3].trim())
+        if !parts || parts.length != 7
           console.debug("Dropping line:", line)
         else
           line_num = Math.min(editor.getLineCount(), parseInt(parts[4]) - 1)
           column_num = if parts[5] then parseInt(parts[5]) - 1 else 0
-          message_position = helpers.generateRange(editor, line_num, column_num)
+          if (file == parts[3].trim()) # Problem location is in the current file
+            message_position = helpers.generateRange(editor, line_num, column_num)
+          else # Problem location is in a different file
+            # Use rough location, highlights to what looks like end of line
+            message_position = [[line_num, column_num], [line_num+1, 0]]
           message =
             location: {
               file: path.normalize(parts[3].trim()),
