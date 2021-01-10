@@ -232,5 +232,5 @@ module.exports =
       grammarScopes: ['source.verilog', 'source.systemverilog']
       scope: 'project'
       lintsOnChange: false
-      name: 'Verilog/SystemVerilog'
+      name: 'VerilogHDL'
       lint: (editor) => lint(editor)
