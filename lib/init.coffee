@@ -26,7 +26,7 @@ lint = (editor) ->
       messages = []
       for line in lines
         if line.length == 0
-          continue;
+          continue; # Skip the current empty line
 
         console.log(line)
         parts = line.match(regex)
@@ -61,9 +61,10 @@ lint = (editor) ->
           messages.push(message)
 
       return messages
+  # end if compiler == 'iverilog'
 
   else if compiler == 'verilator'
-    regex = /%(Error|Warning)(?:-([A-Z0-9_]+))?: ((?:[A-Z]:)?(?:[^\s:]+)):(\d+):(?:(\d+):)?(.+)/
+    regex = /%(Error|Warning)(?:-([A-Z0-9_]+))?: ((?:[A-Z]:)?(?:[^\s:]+)):(\d+):(?:(\d+):)? *(.+)/
     file = file.replace(/\\/g,"/")
     dirname = dirname.replace(/\\/g,"/")
 
@@ -76,7 +77,7 @@ lint = (editor) ->
       messages = []
       for line in lines
         if line.length == 0
-          continue;
+          continue; # Skip the current empty line
 
         console.log(line)
         parts = line.match(regex)
@@ -92,12 +93,13 @@ lint = (editor) ->
               position: message_position
             }
             severity: parts[1].toLowerCase()
-            excerpt: (if parts[2] then parts[2] + ": " else "") + parts[6].trim()
+            excerpt: (if parts[2] then parts[2] + ": " else "") + parts[6]
 
           #console.log(message)
           messages.push(message)
 
       return messages
+  # end else if compiler == 'verilator'
 
   else if compiler == 'slang'
     # set up promise-based command execution dependency
@@ -143,7 +145,7 @@ lint = (editor) ->
       lines = error.stdout.split("\n")
       for line in lines
         if line.length == 0
-          continue;
+          continue; # Skip the current empty line
 
         console.log(line)
         parts = line.match(regex)
