@@ -1,3 +1,9 @@
+# Unreleased
+(May at times be empty)
+
+- Added support for linting with [Verible](https://google.github.io/verible)
+- Changed linter ID in lint messages from "Verilog/SystemVerilog" to "VerilogHDL" for consistency
+
 # v1.1.1
 2020-08-13
 
