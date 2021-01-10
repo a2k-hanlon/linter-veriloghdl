@@ -168,6 +168,45 @@ lint = (editor) ->
 
       return messages
     # end execFile
+  # end else if compiler == 'slang'
+
+  else if compiler == 'verible'
+    regex = /((?:[A-Z]:)?(?:[^\s:]+)):(\d+):(\d+): (syntax error)?(.+)/
+    file = file.replace(/\\/g,"/")
+    dirname = dirname.replace(/\\/g,"/")
+
+    args = ("#{arg}" for arg in atom.config.get('linter-veriloghdl.veribleOptions'))
+    args = args.concat(file)
+    command = atom.config.get('linter-veriloghdl.veribleExecutable')
+    console.log(command, args)
+    return helpers.exec(command, args, {stream: 'both', allowEmptyStderr: true}).then (output) ->
+      lines = output.stdout.split("\n")
+      messages = []
+      for line in lines
+        if line.length == 0
+          continue; # Skip the current empty line
+
+        console.log(line)
+        parts = line.match(regex)
+        if !parts || parts.length != 6
+          console.debug("Dropping line:", line)
+        else
+          line_num = parseInt(parts[2]) - 1
+          column_num = parseInt(parts[3]) - 1
+          message_position = helpers.generateRange(editor, line_num, column_num)
+          message =
+            location: {
+              file: file,
+              position: message_position
+            }
+            severity: if parts[4] then 'error' else 'warning'
+            excerpt: if parts[4] then parts[4] + parts[5] else parts[5];
+
+          #console.log(message)
+          messages.push(message)
+
+      return messages
+  # end else if compiler == 'verible'
 
   else # compiler == 'none'
     atom.notifications.addWarning('[linter-veriloghdl] No compiler selected',
@@ -180,7 +219,7 @@ module.exports =
     compiler:
       type: 'string'
       default: 'none'
-      enum: ['iverilog', 'slang', 'verilator', 'none']
+      enum: ['iverilog', 'slang', 'verible', 'verilator', 'none']
       description: 'Verilog/SystemVerilog compiler for this linter provider to use'
       order: 1
     iverilogExecutable:
@@ -212,16 +251,26 @@ module.exports =
       default: ['-Weverything']
       description: 'Comma separated list of slang options'
       order: 6
+    veribleExecutable:
+      type: 'string'
+      default: 'verible-verilog-lint'
+      description: 'Path to verible-verilog-lint executable'
+      order: 7
+    veribleOptions:
+      type: 'array'
+      default: []
+      description: 'Comma separated list of verible-verilog-lint options'
+      order: 8
     verilatorExecutable:
       type: 'string'
       default: 'verilator'
       description: 'Path to verilator executable'
-      order: 7
+      order: 9
     verilatorOptions:
       type: 'array'
       default: ['-Wall', '--bbox-sys', '--bbox-unsup']
       description: 'Comma separated list of verilator options (note that \"--lint-only\" will be added)'
-      order: 8
+      order: 10
 
 
   activate: ->

@@ -1,6 +1,6 @@
 # linter-veriloghdl
 
-Atom linter for Verilog/SystemVerilog, using [Icarus Verilog](http://iverilog.icarus.com), [Slang](https://sv-lang.com/), or [Verilator](https://www.veripool.org/wiki/verilator).  
+Atom linter for Verilog/SystemVerilog, using [Icarus Verilog](http://iverilog.icarus.com), [Slang](https://sv-lang.com/), [Verible](https://google.github.io/verible), or [Verilator](https://www.veripool.org/wiki/verilator).  
 
 ![Screenshot](https://raw.githubusercontent.com/a2k-hanlon/linter-veriloghdl/master/screenshot.png)
 
@@ -17,10 +17,11 @@ Icarus Verilog does support as much of SystemVerilog as the other tools, but for
 
 ### Other Notes
 
-- The parent directory of the file being linted is automatically added as an include directory argument to the compiler
+- The parent directory of the file being linted is automatically added as an include directory argument to iverilog, slang and verilator.
 - Be aware that Verilator seems to struggle with spaces in filepaths, at least on Windows
 - See https://iverilog.fandom.com/wiki/Iverilog_Flags for iverilog options
 - See https://sv-lang.com/command-line-ref.html for slang options
+- See https://google.github.io/verible/verilog_lint.html for verible options
 - See https://www.veripool.org/projects/verilator/wiki/Manual-verilator for verilator options
 
 ## Compiler Installation
@@ -40,6 +41,12 @@ On Linux, you can download a binary from https://github.com/MikePopoloski/slang/
 On macOS, compiling from source is necessary. Slang has no provided binary for macOS. Instructions for compiling slang from source can be found at https://sv-lang.com/building.html
 
 On Windows, you can download a binary from https://github.com/MikePopoloski/slang/releases/latest (this is the same place as for Linux binaries).
+
+### Verible
+
+On Linux, you can download a binary from https://github.com/google/verible/releases/latest
+
+On macOS or Windows, you can try compiling from source. See https://github.com/google/verible
 
 ### Verilator
 
