@@ -2,7 +2,7 @@
 
 Atom linter for Verilog/SystemVerilog, using [Icarus Verilog](http://iverilog.icarus.com), [Slang](https://sv-lang.com/), [Verible](https://google.github.io/verible), or [Verilator](https://www.veripool.org/wiki/verilator).  
 
-![Screenshot](https://raw.githubusercontent.com/a2k-hanlon/linter-veriloghdl/master/screenshot.png)
+![Screenshot showing example of use with Verilator](https://raw.githubusercontent.com/a2k-hanlon/linter-veriloghdl/master/example.png)
 
 ## Package Installation and Setup
 
