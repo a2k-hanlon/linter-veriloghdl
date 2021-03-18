@@ -147,6 +147,7 @@ lint = (editor) ->
 
       messages = []
       lines = error.stdout.split("\n")
+      lines = lines.concat(error.stderr.split("\n"))
       for line in lines
         if line.length == 0
           continue; # Skip the current empty line
