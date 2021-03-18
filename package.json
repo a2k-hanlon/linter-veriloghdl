@@ -1,7 +1,7 @@
 {
   "name": "linter-veriloghdl",
   "main": "./lib/init",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Atom linter for Verilog/SystemVerilog, using Icarus Verilog, Slang, Verible or Verilator.",
   "keywords": [
     "verilog",
