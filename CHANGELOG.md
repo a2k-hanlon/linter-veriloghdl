@@ -1,6 +1,11 @@
 # Unreleased
 (May at times be empty)
 
+# v1.2.1
+2021-03-17
+
+Fixed https://github.com/a2k-hanlon/linter-veriloghdl/issues/3. Slang versions 0.6+ output error messages to the  `stderr` stream, while earlier versions use `stdout`. Both streams are now parsed for compatibility with all versions.
+
 # v1.2.0
 2021-01-10
 
