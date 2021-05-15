@@ -8,9 +8,9 @@ Creation Date: 2020/07/21
 
 ## Installing with MSYS2
 
-[According to Patrick Stewart](https://www.veripool.org/boards/2/topics/1892-Verilator-Dose-verilator-can-run-in-windows-?r=2118-Verilator-RE-Dose-verilator-can-run-in-windows-#message-2118).
+[Source: Patrick Stewart](https://www.veripool.org/boards/2/topics/1892-Verilator-Dose-verilator-can-run-in-windows-?r=2118-Verilator-RE-Dose-verilator-can-run-in-windows-#message-2118).
 
-1. Install MSYS2 according to the instructions on [its website](https://www.msys2.org/).
+1. Install MSYS2 according to the instructions on its website, https://www.msys2.org/.
 
 2. Install Verilator with MSYS2 by running ```pacman -S mingw-w64-x86_64-verilator``` in the MSYS2  terminal.
 
@@ -22,7 +22,7 @@ To update MSYS2 and Verilator, run ```pacman -Syu``` in the MSYS2 terminal. This
 
 ## Installing with Cygwin
 
-Note: These instructions assume Git is set up and installed.
+These instructions assume Git is set up and installed.
 
 ### Part 1 - Install Cygwin and Verilator's Dependencies
 
@@ -63,7 +63,7 @@ The following instructions follow [Verilator's installation instructions](https:
 
 4. Run ```make test``` to ensure there were no problems. If things were successful, ```Tests passed!``` should have been printed near the end of the long train of test output.
 
-5. To make things are set up such Cygwin-based programs can be run from PowerShell, Command Prompt, or other programs, open PowerShell and run ```\verilator\bin\verilator_bin.exe -V```. Something like ```Verilator 4.038 2020-07-11 rev v4.038-8-gdd03d0f3``` should be printed immediately. If the command was unsuccessful, or printed nothing, it's likely that something went astray along the way here.
+5. To make sure things are set up such Cygwin-based programs can be run from PowerShell, Command Prompt, or other programs, open PowerShell and run ```\verilator\bin\verilator_bin.exe -V```. Something like ```Verilator 4.038 2020-07-11 rev v4.038-8-gdd03d0f3``` should be printed immediately. If the command was unsuccessful, or printed nothing, it's likely that something went astray along the way here.
 
 That's it! Verilator should now be ready to use. Note that you may want to add Verilator to your PATH environment variable, if this fits your needs.
 
